@@ -45,48 +45,50 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-background text-zinc-600 dark:text-zinc-400 flex flex-col">
       {/* Top Navigation / App Bar */}
-      <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-50 px-6 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="size-8 rounded-lg bg-muted border border-border flex items-center justify-center">
-            <Network className="size-4 text-zinc-700 dark:text-zinc-300" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-sm font-semibold tracking-wider uppercase text-zinc-700 dark:text-zinc-300 font-heading">
-                Distributed Systems Playground
-              </h1>
-              <Badge variant="outline" className="text-[10px] text-zinc-600 dark:text-zinc-400">
-                v1.0 Turborepo
-              </Badge>
+      <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-50 px-5">
+        <div className="max-w-[1680px] w-full mx-auto py-3 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="size-8 rounded-lg bg-muted border border-border flex items-center justify-center">
+              <Network className="size-4 text-zinc-700 dark:text-zinc-300" />
             </div>
-            <p className="text-[11px] text-zinc-600 dark:text-zinc-400">
-              NGINX Reverse Proxy · 11 Microservice Instances · Real-Time Telemetry & Chaos Lab
-            </p>
-          </div>
-        </div>
-
-        {/* Right Header Navigation: Overview Guide, Gateway Port, Theme Toggle */}
-        <div className="flex items-center gap-3">
-          <Link href="/overview">
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-8 text-xs gap-1.5 text-zinc-700 dark:text-zinc-300 border-border hover:bg-muted"
-            >
-              <BookOpen className="size-3.5" />
-              <span>System Guide</span>
-            </Button>
-          </Link>
-
-          <div className="flex items-center gap-2 text-xs font-mono">
-            <span className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-border bg-muted/40 text-[11px] text-zinc-600 dark:text-zinc-400">
-              <Server className="size-3 text-zinc-700 dark:text-zinc-300" />
-              Gateway Port 8080
-            </span>
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="text-sm font-semibold tracking-wider uppercase text-zinc-700 dark:text-zinc-300 font-heading">
+                  Distributed Systems Playground
+                </h1>
+                <Badge variant="outline" className="text-[10px] text-zinc-600 dark:text-zinc-400">
+                  v1.0 Turborepo
+                </Badge>
+              </div>
+              <p className="text-[11px] text-zinc-600 dark:text-zinc-400">
+                NGINX Reverse Proxy · 11 Microservice Instances · Real-Time Telemetry & Chaos Lab
+              </p>
+            </div>
           </div>
 
-          <div className="border-l border-border pl-3">
-            <ThemeToggle />
+          {/* Right Header Navigation: Overview Guide, Gateway Port, Theme Toggle */}
+          <div className="flex items-center gap-3">
+            <Link href="/overview">
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 text-xs gap-1.5 text-zinc-700 dark:text-zinc-300 border-border hover:bg-muted"
+              >
+                <BookOpen className="size-3.5" />
+                <span>System Guide</span>
+              </Button>
+            </Link>
+
+            <div className="flex items-center gap-2 text-xs font-mono">
+              <span className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-border bg-muted/40 text-[11px] text-zinc-600 dark:text-zinc-400">
+                <Server className="size-3 text-zinc-700 dark:text-zinc-300" />
+                Gateway Port 8080
+              </span>
+            </div>
+
+            <div className="border-l border-border pl-3">
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       </header>
@@ -99,12 +101,14 @@ export default function DashboardPage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border/60 py-3 px-6 text-center text-[11px] text-zinc-600 dark:text-zinc-400 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Terminal className="size-3.5 text-zinc-700 dark:text-zinc-300" />
-          <span>Local CLI available: <code>pnpm load-test -- --rps 100 --duration 60</code></span>
+      <footer className="border-t border-border/60 px-5">
+        <div className="max-w-[1680px] w-full mx-auto py-3 text-center text-[11px] text-zinc-600 dark:text-zinc-400 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Terminal className="size-3.5 text-zinc-700 dark:text-zinc-300" />
+            <span>Local CLI available: <code>pnpm load-test -- --rps 100 --duration 60</code></span>
+          </div>
+          <div>Educational Distributed Systems Observability Laboratory</div>
         </div>
-        <div>Educational Distributed Systems Observability Laboratory</div>
       </footer>
     </div>
   );

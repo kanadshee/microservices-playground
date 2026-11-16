@@ -9,9 +9,11 @@ This project is designed as a standalone local playground to experiment with dis
 ## Visual Overview
 
 ### System Architecture & Live Canvas
+
 ![Landing View](public/landing-view.png)
 
 ### Real-Time Metrics & Interactive Controls
+
 ![Metrics View](public/metrics-view.png)
 
 ---
@@ -56,16 +58,16 @@ flowchart TD
 
 ### Services and Port Allocations
 
-| Service | Port(s) | Description |
-| :--- | :--- | :--- |
-| **Web Dashboard** | `3000` | Next.js 16 app with React Flow canvas, metrics charts, and control panel |
-| **API Gateway** | `8080` | Reverse proxy with round-robin routing, rate limiting, and request ID stamping |
-| **User Service** | `4001`, `4002` | User profiles and authentication data endpoints (2 instances) |
-| **Product Service** | `4011`, `4012`, `4013` | Catalog, inventory management, and price queries (3 instances) |
-| **Order Service** | `4021`, `4022` | Transaction coordinator communicating with Product and Notification services |
-| **Notification Service**| `4031`, `4032` | Asynchronous email and SMS dispatch simulation |
-| **Background Worker** | `4051` | Asynchronous job consumer processing tasks from Redis queue |
-| **Analytics Service** | `4041` | Real-time telemetry ingestion, WebSocket/SSE broadcasting, and chaos controller |
+| Service                  | Port(s)                | Description                                                                     |
+| :----------------------- | :--------------------- | :------------------------------------------------------------------------------ |
+| **Web Dashboard**        | `3000`                 | Next.js 16 app with React Flow canvas, metrics charts, and control panel        |
+| **API Gateway**          | `8080`                 | Reverse proxy with round-robin routing, rate limiting, and request ID stamping  |
+| **User Service**         | `4001`, `4002`         | User profiles and authentication data endpoints (2 instances)                   |
+| **Product Service**      | `4011`, `4012`, `4013` | Catalog, inventory management, and price queries (3 instances)                  |
+| **Order Service**        | `4021`, `4022`         | Transaction coordinator communicating with Product and Notification services    |
+| **Notification Service** | `4031`, `4032`         | Asynchronous email and SMS dispatch simulation                                  |
+| **Background Worker**    | `4051`                 | Asynchronous job consumer processing tasks from Redis queue                     |
+| **Analytics Service**    | `4041`                 | Real-time telemetry ingestion, WebSocket/SSE broadcasting, and chaos controller |
 
 ---
 
@@ -76,7 +78,7 @@ flowchart TD
 - **Node.js**: `v20.0.0` or higher (tested on Node 22 and Node 24)
 - **Package Manager**: `pnpm` (version 9 or 11 recommended) or `npm`
 - **Operating System**: macOS, Linux, or Windows (PowerShell or Command Prompt)
-- *Optional*: Docker Desktop (only required if running via Docker Compose)
+- _Optional_: Docker Desktop (only required if running via Docker Compose)
 
 ### Option 1: Native Local Mode (Recommended)
 
@@ -95,6 +97,7 @@ pnpm dev
 ```
 
 Once started, open your browser:
+
 - **Web Dashboard**: [http://localhost:3000](http://localhost:3000)
 - **API Gateway**: [http://localhost:8080/health](http://localhost:8080/health)
 - **Analytics Health**: [http://localhost:4041/health](http://localhost:4041/health)
@@ -130,12 +133,12 @@ To add new routes, mock database queries, or modify business logic in an existin
 
 ```typescript
 // In services/product-service/src/index.ts
-app.get('/products/:id/discount', (req, res) => {
+app.get("/products/:id/discount", (req, res) => {
   const { id } = req.params;
   const discountPercent = Math.floor(Math.random() * 30) + 5;
   res.json({
     productId: id,
-    instance: process.env.INSTANCE_ID || 'product-service-1',
+    instance: process.env.INSTANCE_ID || "product-service-1",
     discountPercent,
     validUntil: new Date(Date.now() + 86400000).toISOString(),
   });
@@ -159,13 +162,10 @@ To introduce a new microservice (e.g., `payment-service`):
 
    ```typescript
    // In gateway/src/index.ts
-   const PAYMENT_INSTANCES = [
-     'http://localhost:4061',
-     'http://localhost:4062',
-   ];
+   const PAYMENT_INSTANCES = ["http://localhost:4061", "http://localhost:4062"];
 
-   app.use('/api/payments', (req, res) => {
-     forwardRequest(req, res, PAYMENT_INSTANCES, 'payment-service');
+   app.use("/api/payments", (req, res) => {
+     forwardRequest(req, res, PAYMENT_INSTANCES, "payment-service");
    });
    ```
 
@@ -283,17 +283,19 @@ micro-visualization/
 
 ## Available Scripts
 
-| Command | Action |
-| :--- | :--- |
-| `pnpm dev` | Starts all services, gateway, analytics, and web dashboard concurrently |
-| `pnpm build` | Compiles TypeScript across all services and runs Next.js production build |
-| `pnpm lint` | Runs ESLint across all packages and apps |
-| `pnpm test:load` | Runs the standalone CLI load tester (`packages/load-tester`) |
-| `docker compose up --build` | Launches all components inside Docker containers |
-| `docker compose down` | Stops and removes all Docker containers |
+| Command                     | Action                                                                    |
+| :-------------------------- | :------------------------------------------------------------------------ |
+| `pnpm dev`                  | Starts all services, gateway, analytics, and web dashboard concurrently   |
+| `pnpm build`                | Compiles TypeScript across all services and runs Next.js production build |
+| `pnpm lint`                 | Runs ESLint across all packages and apps                                  |
+| `pnpm test:load`            | Runs the standalone CLI load tester (`packages/load-tester`)              |
+| `docker compose up --build` | Launches all components inside Docker containers                          |
+| `docker compose down`       | Stops and removes all Docker containers                                   |
 
 ---
 
 ## License
 
-MIT
+Distributed under the [MIT License](LICENSE).
+
+Copyright (c) 2026 Kanad Shee

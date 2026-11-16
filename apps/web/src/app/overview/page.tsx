@@ -12,31 +12,33 @@ export default function OverviewPage() {
   return (
     <div className="min-h-screen bg-background text-zinc-600 dark:text-zinc-400 flex flex-col">
       {/* Top Header */}
-      <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-50 px-6 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Link href="/">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-8 text-xs gap-1.5 text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-zinc-100"
-            >
-              <ArrowLeft className="size-4" />
-              <span>Back to Playground</span>
-            </Button>
-          </Link>
-          <div className="h-4 w-px bg-border" />
-          <div className="flex items-center gap-2">
-            <h1 className="text-sm font-semibold tracking-wide text-zinc-700 dark:text-zinc-300 font-heading">
-              System Architecture Guide
-            </h1>
-            <Badge variant="outline" className="text-[10px] text-zinc-600 dark:text-zinc-400">
-              Interactive Reference
-            </Badge>
+      <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-50 px-6">
+        <div className="max-w-[1100px] w-full mx-auto py-3 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Link href="/">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 text-xs gap-1.5 text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-zinc-100"
+              >
+                <ArrowLeft className="size-4" />
+                <span>Back to Playground</span>
+              </Button>
+            </Link>
+            <div className="h-4 w-px bg-border" />
+            <div className="flex items-center gap-2">
+              <h1 className="text-sm font-semibold tracking-wide text-zinc-700 dark:text-zinc-300 font-heading">
+                System Architecture Guide
+              </h1>
+              <Badge variant="outline" className="text-[10px] text-zinc-600 dark:text-zinc-400">
+                Interactive Reference
+              </Badge>
+            </div>
           </div>
-        </div>
 
-        <div className="flex items-center gap-3">
-          <ThemeToggle />
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 
