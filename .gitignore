@@ -1,0 +1,28 @@
+# Dependencies & Package Managers
+node_modules/
+.pnpm-store/
+.npm/
+
+# Build Outputs & Caches
+dist/
+build/
+.next/
+.turbo/
+*.tsbuildinfo
+
+# Environment & Local Files
+.env.local
+.env.*.local
+*.log
+.DS_Store
+Thumbs.db
+
+# AI Assistant & Tooling Artifacts
+.agents/
+.claude/
+.gemini/
+.cursor/
+.cursorrules
+.windsurfrules
+.mcp.json
+skills-lock.json

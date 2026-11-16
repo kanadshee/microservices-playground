@@ -1,0 +1,23 @@
+{
+  "name": "micro-visualization",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:build": "docker compose build",
+    "docker:logs": "docker compose logs -f",
+    "load-test": "pnpm --filter load-tester run test:cli",
+    "load-test:light": "pnpm --filter load-tester run test:light",
+    "load-test:medium": "pnpm --filter load-tester run test:medium",
+    "load-test:heavy": "pnpm --filter load-tester run test:heavy"
+  },
+  "devDependencies": {
+    "turbo": "^2.4.4",
+    "typescript": "^5.8.2"
+  },
+  "packageManager": "pnpm@11.24.0"
+}

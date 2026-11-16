@@ -1,0 +1,202 @@
+services:
+  nginx-gateway:
+    image: nginx:alpine
+    container_name: micro-nginx-gateway
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - user-service-1
+      - user-service-2
+      - product-service-1
+      - product-service-2
+      - product-service-3
+      - order-service-1
+      - order-service-2
+      - notification-service-1
+      - notification-service-2
+      - analytics-service
+    networks:
+      - micro-network
+
+  redis:
+    image: redis:alpine
+    container_name: micro-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - micro-network
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: micro-postgres
+    environment:
+      POSTGRES_USER: micro_user
+      POSTGRES_PASSWORD: micro_password
+      POSTGRES_DB: micro_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - micro-network
+
+  user-service-1:
+    build: .
+    container_name: user-service-1
+    command: ["pnpm", "--filter", "user-service", "start"]
+    environment:
+      PORT: "4001"
+      INSTANCE_ID: "user-service-1"
+      ANALYTICS_URL: "http://analytics-service:4041"
+    ports:
+      - "4001:4001"
+    networks:
+      - micro-network
+
+  user-service-2:
+    build: .
+    container_name: user-service-2
+    command: ["pnpm", "--filter", "user-service", "start"]
+    environment:
+      PORT: "4002"
+      INSTANCE_ID: "user-service-2"
+      ANALYTICS_URL: "http://analytics-service:4041"
+    ports:
+      - "4002:4002"
+    networks:
+      - micro-network
+
+  product-service-1:
+    build: .
+    container_name: product-service-1
+    command: ["pnpm", "--filter", "product-service", "start"]
+    environment:
+      PORT: "4011"
+      INSTANCE_ID: "product-service-1"
+      ANALYTICS_URL: "http://analytics-service:4041"
+    ports:
+      - "4011:4011"
+    networks:
+      - micro-network
+
+  product-service-2:
+    build: .
+    container_name: product-service-2
+    command: ["pnpm", "--filter", "product-service", "start"]
+    environment:
+      PORT: "4012"
+      INSTANCE_ID: "product-service-2"
+      ANALYTICS_URL: "http://analytics-service:4041"
+    ports:
+      - "4012:4012"
+    networks:
+      - micro-network
+
+  product-service-3:
+    build: .
+    container_name: product-service-3
+    command: ["pnpm", "--filter", "product-service", "start"]
+    environment:
+      PORT: "4013"
+      INSTANCE_ID: "product-service-3"
+      ANALYTICS_URL: "http://analytics-service:4041"
+    ports:
+      - "4013:4013"
+    networks:
+      - micro-network
+
+  order-service-1:
+    build: .
+    container_name: order-service-1
+    command: ["pnpm", "--filter", "order-service", "start"]
+    environment:
+      PORT: "4021"
+      INSTANCE_ID: "order-service-1"
+      GATEWAY_URL: "http://nginx-gateway:80"
+      ANALYTICS_URL: "http://analytics-service:4041"
+    ports:
+      - "4021:4021"
+    networks:
+      - micro-network
+
+  order-service-2:
+    build: .
+    container_name: order-service-2
+    command: ["pnpm", "--filter", "order-service", "start"]
+    environment:
+      PORT: "4022"
+      INSTANCE_ID: "order-service-2"
+      GATEWAY_URL: "http://nginx-gateway:80"
+      ANALYTICS_URL: "http://analytics-service:4041"
+    ports:
+      - "4022:4022"
+    networks:
+      - micro-network
+
+  notification-service-1:
+    build: .
+    container_name: notification-service-1
+    command: ["pnpm", "--filter", "notification-service", "start"]
+    environment:
+      PORT: "4031"
+      INSTANCE_ID: "notification-service-1"
+      ANALYTICS_URL: "http://analytics-service:4041"
+    ports:
+      - "4031:4031"
+    networks:
+      - micro-network
+
+  notification-service-2:
+    build: .
+    container_name: notification-service-2
+    command: ["pnpm", "--filter", "notification-service", "start"]
+    environment:
+      PORT: "4032"
+      INSTANCE_ID: "notification-service-2"
+      ANALYTICS_URL: "http://analytics-service:4041"
+    ports:
+      - "4032:4032"
+    networks:
+      - micro-network
+
+  worker-service:
+    build: .
+    container_name: worker-service
+    command: ["pnpm", "--filter", "worker-service", "start"]
+    environment:
+      PORT: "4051"
+      INSTANCE_ID: "worker-service-1"
+    ports:
+      - "4051:4051"
+    networks:
+      - micro-network
+
+  analytics-service:
+    build: .
+    container_name: analytics-service
+    command: ["pnpm", "--filter", "analytics-service", "start"]
+    environment:
+      PORT: "4041"
+      GATEWAY_URL: "http://nginx-gateway:80"
+    ports:
+      - "4041:4041"
+    networks:
+      - micro-network
+
+  web:
+    build: .
+    container_name: micro-web-dashboard
+    command: ["pnpm", "--filter", "web", "dev"]
+    ports:
+      - "3000:3000"
+    networks:
+      - micro-network
+
+networks:
+  micro-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
