@@ -29,22 +29,29 @@ This project is designed as a standalone local playground to experiment with dis
 
 ## System Architecture
 
-```text
- Client / Browser / Load Generator
-                 │
-                 ▼
-     API Gateway / Reverse Proxy (Port 8080)
-   Round-Robin Load Balancing · Rate Limiter · Tracing ID
-                 │
-  ┌──────────────┼──────────────┬──────────────┬──────────────┐
-  ▼              ▼              ▼              ▼              ▼
-User Svc    Product Svc    Order Svc     Notification    Analytics Svc
-2 instances  3 instances   2 instances   2 instances      1 instance
-(:4001,:4002) (:4011-:4013) (:4021,:4022) (:4031,:4032)    (:4041)
-  │              │              │              │              │
-  ▼              ▼              ▼              │              ▼
-PostgreSQL   PostgreSQL      Redis ───────► Worker Svc   WebSocket & SSE
-  (:5432)       (:5432)       (:6379)        (:4051)      Dashboard Stream
+```mermaid
+flowchart TD
+    Client["Client / Browser / Load Generator"] --> GW["API Gateway :8080 (Round-Robin · Rate Limiter · Tracing ID)"]
+
+    subgraph Services ["Microservice Tier"]
+        GW --> US["User Service (:4001, :4002) - 2 Instances"]
+        GW --> PS["Product Service (:4011-:4013) - 3 Instances"]
+        GW --> OS["Order Service (:4021, :4022) - 2 Instances"]
+        GW --> NS["Notification Service (:4031, :4032) - 2 Instances"]
+        GW --> AS["Analytics Service (:4041) - Real-time Pipeline"]
+    end
+
+    OS -.->|"Verify Inventory"| PS
+    OS -.->|"Trigger Alert"| NS
+
+    subgraph Storage ["Storage & Background Tier"]
+        US --> PG1[("PostgreSQL :5432")]
+        PS --> PG2[("PostgreSQL :5432")]
+        OS --> RD[("Redis :6379")]
+        RD --> WS["Background Worker (:4051)"]
+    end
+
+    AS -->|"Telemetry Stream (WS/SSE)"| UI["Web Dashboard (:3000)"]
 ```
 
 ### Services and Port Allocations
